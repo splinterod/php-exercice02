@@ -61,4 +61,4 @@ Run tests suits: `phpunit`.
 
 ## Links
 
-- https://phpunit.de/manual/6.5/en/appendixes.assertions.html
+- https://phpunit.de/
