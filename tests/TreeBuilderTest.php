@@ -20,13 +20,12 @@ final class TreeBuilderTest extends TestCase
         $tree = new TreeBuilder($input);
         $tree->build();
         $nestedTree = $tree->getTree();
-
+        
         // complete the unit test here...
         // make sure the top items number is correct
         // make sure nested item values are correct
 
         $this->assertCount(4, $nestedTree);
-        // @FILLTHIS
-        // other simple tests to verify sub items... ?
+        // @todo: other simple tests to verify sub items...
     }
 }
