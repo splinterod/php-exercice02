@@ -18,6 +18,6 @@ $input = [
     '4.1. Données de sécurité préclinique'
 ];
 
-$tree = new TreeBuilder($example);
+$tree = new TreeBuilder($input);
 $tree->build();
 print_r($tree->getTree());

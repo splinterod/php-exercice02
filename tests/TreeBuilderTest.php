@@ -8,11 +8,11 @@ final class TreeBuilderTest extends TestCase
     public function testTree(): void
     {
         $input = [
-            '3.1. Contre indications',
             '1. Dénomiation du médicament',
             '2. Effets indésirables',
             '2.1. Effet sur la grossesse',
             '3. Forme pharmaceutique',
+            '3.1. Contre indications',
             '4. Données pharmaceutiques',
             '4.1. Données de sécurité préclinique'
         ];

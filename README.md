@@ -38,10 +38,11 @@ into a nested array
 - Numbers from input data are always properly formatted as `<num>.<num>.`.
 - The maximum level of subtitles is two (as given in examples).
 - The texts after numerotations never contain "dots".
+- Its doesn't matter if the final nested array has a different form (or keys) as long as it is nested and exploitable.
 
 ## Bonus question
 
-How would do write your code differently if you possibly had unlimited number of sublevels ?
+How would do write your code differently if you possibly had unlimited number of sublevels and was originaly un-ordered ?
 
 ## Install
 
