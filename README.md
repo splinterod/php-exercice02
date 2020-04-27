@@ -9,6 +9,8 @@ The goal is to create a utility to parse a flat tree of indexes into a nested tr
 
 (see `@FILLTHIS` inside the code)
 
+**Input example**
+
 We want to order un-ordered medicine titles, from flat to nested. As an example, we want to turn...
 
 ```
