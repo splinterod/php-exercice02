@@ -27,10 +27,10 @@ into a nested array that looks like that. Key format can be different, as long a
 ```
 [
     0 => [
-        "title" => "Dénomination du médicament", children => []
+        "title" => "1. Dénomination du médicament", children => []
     ],
     1 => [
-        "title" => "Effets indésirables", children => [
+        "title" => "2. Effets indésirables", children => [
             0 => [ "title" => "2.1 Effets sur la grossesse" ],
         ]
     ],
