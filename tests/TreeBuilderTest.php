@@ -17,6 +17,9 @@ final class TreeBuilderTest extends TestCase
             '4. Données pharmaceutiques'
         ];
 
+        //action en doublon avec le code de la méthode getTree()
+        sort($input);
+
         $tree = new TreeBuilder($input);
         $tree->build();
         $nestedTree = $tree->getTree();
@@ -44,9 +47,6 @@ final class TreeBuilderTest extends TestCase
             }
         }
 
-        var_dump($input);
-        sort($input);
-        var_dump($originalTable);
         $this->assertEquals($input,$originalTable);
 
         $this->assertCount(4, $nestedTree);
