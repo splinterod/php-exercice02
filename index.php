@@ -19,7 +19,7 @@ $input = [
     '2.1. Effet sur la grossesse',
     '3. Forme pharmaceutique',
     '3.1. Contre indications',
-    '4. Données pharmaceutiques',
+    '4.1.2 Données pharmaceutiques',
     '4.1. Données de sécurité préclinique',
 
 ];

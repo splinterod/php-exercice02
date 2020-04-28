@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Exception;
+
 class TreeBuilder
 {
     private $flatData = [];
@@ -32,6 +34,8 @@ class TreeBuilder
               Si la taille de $chapterNumbers = 2 alors chapitre de niveau 2 (enfants d'un chapitre de niveau 1)... */
             $indexSize = count($chapterNumbers[0]);
 
+
+
             /* en fonction de la "profondeur" du titre de chapitre en cours d'analyse, on le positionne dans le tableau de sortie en fct de son niveau hierarchique.
              On ajoute directement le titre et l'index au bon endroit dans le tableau ( les clés et la valeur "index" sont les memes ): On n'a pas à se soucier de l'ordre
              lequel les titres sont classés dans le tableau initial. D'autant plus que la source a été trié */
@@ -56,14 +60,28 @@ class TreeBuilder
 //                    au cas ou le niveau hierarchique dépasse 2, on renvoie une erreur afin d'éviter de remonter un tableau incomplet
                     throw new Exception('le nombre de niveau hierarchique max (2 niveaux) est atteint');
             }
+
+            $nestedTable2 =[];
+            $nestedTable2 = $this->test($title, $chapterNumbers[0], $nestedTable2);
+            die();
+
         }
         $this->tree = $nestedTable;
 
+
         return $this->tree;
     }
+
+    public function test($data, $chapter, $nestedTable)
+    {
+        var_dump($data);
+
+    }
+
 
     public function getTree()
     {
         return $this->tree;
     }
+
 }
