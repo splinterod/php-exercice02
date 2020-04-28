@@ -8,13 +8,13 @@ final class TreeBuilderTest extends TestCase
     public function testTree(): void
     {
         $input = [
+            '4.1. Données de sécurité préclinique',
             '1. Dénomiation du médicament',
             '2. Effets indésirables',
             '2.1. Effet sur la grossesse',
             '3. Forme pharmaceutique',
             '3.1. Contre indications',
-            '4. Données pharmaceutiques',
-            '4.1. Données de sécurité préclinique'
+            '4. Données pharmaceutiques'
         ];
 
         $tree = new TreeBuilder($input);
@@ -38,12 +38,15 @@ final class TreeBuilderTest extends TestCase
                 Foreach($chapter['children'] as $subChpater){
 //                    ajoute au tableau normal chaques numéro de chapitre (en reprenant aussi le numero index niveau 1) et
 //                    on concatene avec le titre du sous chapitre
-                    array_push($originalTable, $chapter['index'] . ".d" . $subChpater['index'] . ". ". $subChpater['title']);
+                    array_push($originalTable, $chapter['index'] . "." . $subChpater['index'] . ". ". $subChpater['title']);
                 }
 
             }
         }
 
+        var_dump($input);
+        sort($input);
+        var_dump($originalTable);
         $this->assertEquals($input,$originalTable);
 
         $this->assertCount(4, $nestedTree);

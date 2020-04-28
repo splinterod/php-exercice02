@@ -39,7 +39,7 @@ class TreeBuilder
 
                     $output[$level1]["index"] = $level1;
 //                     on ajoute le titre en enlevant les 3 premiers caractères correspondant au numéro de chapitre (<number><dot><space>)
-                    $output[$level1]["title"] = substr($title,3);
+                    $output[$level1]["title"] = substr($title, 3);
 //
                     break;
                 case 2:
@@ -47,7 +47,7 @@ class TreeBuilder
                     $level2 = filter_var($chapterNumbers[0][1][0], FILTER_SANITIZE_NUMBER_INT);
                     $output[$level1]["children"][$level2]["index"] = $level2;
                     //on ajoute le titre en enlever les 5 premiers caractères correspondant au numéro de chapitre (<number><dot><number><dot><space>)
-                    $output[$level1]["children"][$level2]["title"] = substr($title,5);
+                    $output[$level1]["children"][$level2]["title"] = substr($title, 5);
                     break;
                 default:
                     throw new Exception('le nombre de niveau hierarchique max (2 niveaux) est atteint');
