@@ -44,6 +44,7 @@ class TreeBuilderInfinite
                 'title' => $title,
             ];
 
+            // on reset le tableau qu'on va ajouter au tableau final
             $arrayForTable = [];
 
             // On crée la profondeur (en fct de la longueur du tableau $chapter sauf pour chapterNumber[0]
@@ -68,19 +69,18 @@ class TreeBuilderInfinite
 
 //            si arrayForTable = empty alors on est pas rentré dasn la boucle donc arrayForTable est vide
             $arrayForTable = (empty($arrayForTable)) ? $arraytoAdd : $arrayForTable;
-//                Problème lors du merge des tableaux, un doublon se crée à partir du moment ou on a plusieurs sous
-//            chapitre : le sens dans la fonction array_replace_recursive est important ici. On prend le tableau avec les nouvelles valeurs et on le complète
-//            avec  toutes les infos de nestedTable.
-           $nestedTable= array_replace_recursive($arrayForTable, $nestedTable );
-           asort($nestedTable);
+
+//              Le sens des arguments dans la fonction array_replace_recursive est important ici. On prend le tableau avec les nouvelles valeurs et on le complète
+//            avec  toutes les infos de nestedTable et pas l'inverse->perte de données
+            $nestedTable = array_replace_recursive($arrayForTable, $nestedTable);
+            asort($nestedTable);
 
         }
         var_dump($nestedTable);
 
-
     }
 
- public function getTree()
+    public function getTree()
     {
         return $this->tree;
     }
