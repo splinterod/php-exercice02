@@ -2,9 +2,7 @@
 
 namespace App;
 
-use Exception;
-
-class TreeBuilder
+class TreeBuilderInfinite
 {
     private $flatData = [];
     private $tree = [];
@@ -16,14 +14,9 @@ class TreeBuilder
 
     public function build()
     {
-        /*      tri du tableau initial afin de respecter l'ordre des chapitres.
-               le tableau en sortie sera ainsi trié dans l'ordre des chapitres et
-               on cela évitera de compléter ce tableau de facon aléatoire */
         sort($this->flatData);
 
-        $nestedTable = [];
-
-        //            Tests pour une nombre infini hierarchique
+        // Tests pour une nombre infini hierarchique
         $this->test();
         die();
 
@@ -32,54 +25,53 @@ class TreeBuilder
         return $this->tree;
     }
 
-    public function test(){
+    public function test()
+    {
 
-        $ar1 = array("color" => array("favorite" => "red"), 5);
-        $ar2 = array(10, "color" => array("favorite" => "green", "blue"));
-        $result = array_merge_recursive($ar1, $ar2);
-
-        $maxSize = 0;
-        $chapterMax = [];
+        $nestedTable = [];
 
         foreach ($this->flatData as $title) {
             preg_match_all('~\d{1,3}.~', $title, $chapterNumbers);
-            $indexSize = count($chapterNumbers[0]);
+//           on va créer le tableau à ajouter en sens inverse
+            $chapterNumbers = array_reverse($chapterNumbers[0]);
 
+//            on reset le tableau qu'on va ajouter
+            $arraytoAdd = [];
 
-            if($indexSize > $maxSize){
-                $maxSize = $indexSize;
-                $chapterMax = $chapterNumbers[0];
+            // On ajoute le titre le dernier numéro de chapitre ainsi que le titre (donc 0 car $chapter est inversé)
+            $arraytoAdd[filter_var($chapterNumbers[0], FILTER_SANITIZE_NUMBER_INT)] = [
+                'index' => filter_var($chapterNumbers[0], FILTER_SANITIZE_NUMBER_INT),
+                'title' => $title,
+            ];
+
+            // On crée la profondeur (en fct de la longueur du tableau $chapter sauf pour chapterNumber[0]
+            //deja traité au dessus et si count($chapterNumber = 1 , on fait rien)
+            for ($i = 1; $i < count($chapterNumbers); $i++) {
+                $arraytoAdd[filter_var($chapterNumbers[$i], FILTER_SANITIZE_NUMBER_INT)] = [
+                    'index' => filter_var($chapterNumbers[$i], FILTER_SANITIZE_NUMBER_INT),
+                    'title' => '',
+                    'children' => $arraytoAdd
+
+                ];
             }
+// Doublon de data, je ne comprends pas pourquoi, alors on efface
+            $lastChapterNumber = $chapterNumbers[count($chapterNumbers)-1];
+                foreach ($arraytoAdd as $key => $value) {
+                    if ($key != $lastChapterNumber) {
+                        unset($arraytoAdd[$key]);
+                    }
+            }
+
+//                Problème lors du merge des tableaux, un doublon se crée à partir du moment ou on a plusieurs sous
+//            chapitre
+           $nestedTable= array_replace_recursive ($arraytoAdd,$nestedTable);
+           asort($nestedTable);
+           var_dump($nestedTable);
+
         }
-
-        var_dump($maxSize);
-        var_dump($chapterMax);
-        $arrayInitial =[
-            'index' => "",
-            'title' => "",
-            'children' => "level1",
-        ];
-        $arrayToPush= [ 'children'  =>
-            [
-                'index' => "",
-                'title' => "",
-                'children' => "level1",
-            ]
-        ];
-
-        for($i=0;$i<8;$i++){
-            $arrayInitial['children'] = $arrayInitial;
-        }
-
-        var_dump($arrayInitial);
-        die();
-
-
-
-
-
 
     }
+
 
     public function getTree()
     {
