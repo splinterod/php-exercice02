@@ -44,7 +44,7 @@ class TreeBuilder
                     /* on ajoute titre et index au tableau
                    Avant l'ajout , on pourrait tester si la valeur existe déja et remonter une erreur de numérotation*/
                     $nestedTable[$level1]["index"] = $level1;
-//                     on ajoute le titre en enlevant les 3 premiers caractères correspondant au numéro de chapitre (<number><dot><space>)
+                    //  on ajoute le titre en enlevant les 3 premiers caractères correspondant au numéro de chapitre (<number><dot><space>)
                     $nestedTable[$level1]["title"] = substr($title, 3);
                     break;
                 case 2:
@@ -55,7 +55,7 @@ class TreeBuilder
                     $nestedTable[$level1]["children"][$level2]["title"] = substr($title, 5);
                     break;
                 default:
-//                    au cas ou le niveau hierarchique dépasse 2, on renvoie une erreur afin d'éviter de remonter un tableau incomplet
+                //   au cas ou le niveau hierarchique dépasse 2, on renvoie une erreur afin d'éviter de remonter un tableau incomplet
                     throw new Exception('le nombre de niveau hierarchique max (2 niveaux) est atteint');
             }
         }
@@ -68,5 +68,4 @@ class TreeBuilder
     {
         return $this->tree;
     }
-
 }
