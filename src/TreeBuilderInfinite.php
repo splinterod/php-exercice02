@@ -17,22 +17,22 @@ class TreeBuilderInfinite
         sort($this->flatData);
 
         // Tests pour une nombre infini hierarchique
-        $this->test();
-        die();
+        $this->tree = $this->createNestedTable();
 
-        $this->tree = $nestedTable;
 
         return $this->tree;
     }
 
-    public function test()
+    public function createNestedTable()
     {
 
         $nestedTable = [];
 
+
+        //On parcours toutes lignes du tableau
         foreach ($this->flatData as $title) {
             preg_match_all('~\d{1,3}.~', $title, $chapterNumbers);
-            // on va créer le tableau à ajouter en sens inverse
+            // on va créer le tableau à ajouter en sens inverse, on inverse l'ordre des numéros de chapitre
             $chapterNumbers = array_reverse($chapterNumbers[0]);
 
             // on reset le tableau qu'on va ajouter
@@ -76,9 +76,9 @@ class TreeBuilderInfinite
             asort($nestedTable);
 
         }
-        //affichage du résultat
+        //affichage du résultat :
         var_dump($nestedTable);
-
+        return $nestedTable;
     }
 
     public function getTree()
