@@ -34,40 +34,6 @@ class TreeBuilderInfinite
 
     public function test(){
 
-//        $result = array_merge_recursive($ar1, $ar2);
-
-        $maxSize = 0;
-        $chapterMax = [];
-
-        foreach ($this->flatData as $title) {
-            preg_match_all('~\d{1,3}.~', $title, $chapterNumbers);
-            $indexSize = count($chapterNumbers[0]);
-
-            if($indexSize > $maxSize){
-                $maxSize = $indexSize;
-                $chapterMax = $chapterNumbers[0];
-            }
-        }
-
-        var_dump($maxSize);
-        var_dump($chapterMax);
-        $arrayInitial =[
-            'index' => "",
-            'title' => "",
-            'children' => "level1",
-        ];
-
-//        l'idée du code est de créer completement le tableau de sortie avec des valeurs vides
-        // puis de créer autant de fois que nécessaires par niveau et de le remplir dasn un second temps
-        // voir meme de mettre directement les niveau numerotation et de n'ajouter que les titres
-
-
-        for($i=0;$i<8;$i++){
-            $arrayInitial['children'] = $arrayInitial;
-        }
-
-        var_dump($arrayInitial);
-        die();
     }
 
     public function getTree()
