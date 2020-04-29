@@ -44,36 +44,43 @@ class TreeBuilderInfinite
                 'title' => $title,
             ];
 
+            $arrayForTable = [];
+
             // On crée la profondeur (en fct de la longueur du tableau $chapter sauf pour chapterNumber[0]
             //deja traité au dessus et si count($chapterNumber = 1 , on fait rien)
             for ($i = 1; $i < count($chapterNumbers); $i++) {
-                $arraytoAdd[filter_var($chapterNumbers[$i], FILTER_SANITIZE_NUMBER_INT)] = [
-                    'index' => filter_var($chapterNumbers[$i], FILTER_SANITIZE_NUMBER_INT),
-                    'title' => '',
-                    'children' => $arraytoAdd
-
-                ];
+//                premiere boucle on ajoute le tableau $arrayToAdd sinon on ajoute le arrayFor Table sur lui meme . En conservant les index et clés pour faciliter
+//                le merge entre les tableaux
+                if ($i == 1) {
+                    $arrayForTable[filter_var($chapterNumbers[$i], FILTER_SANITIZE_NUMBER_INT)] = [
+                        'index' => filter_var($chapterNumbers[$i], FILTER_SANITIZE_NUMBER_INT),
+                        'title' => '',
+                        'children' => $arraytoAdd
+                    ];
+                } else {
+                    $arrayForTable[filter_var($chapterNumbers[$i], FILTER_SANITIZE_NUMBER_INT)] = [
+                        'index' => filter_var($chapterNumbers[$i], FILTER_SANITIZE_NUMBER_INT),
+                        'title' => '',
+                        'children' => $arrayForTable
+                    ];
+                }
             }
-// Doublon de data, je ne comprends pas pourquoi, alors on efface
-            $lastChapterNumber = $chapterNumbers[count($chapterNumbers)-1];
-                foreach ($arraytoAdd as $key => $value) {
-                    if ($key != $lastChapterNumber) {
-                        unset($arraytoAdd[$key]);
-                    }
-            }
 
+//            si arrayForTable = empty alors on est pas rentré dasn la boucle donc arrayForTable est vide
+            $arrayForTable = (empty($arrayForTable)) ? $arraytoAdd : $arrayForTable;
 //                Problème lors du merge des tableaux, un doublon se crée à partir du moment ou on a plusieurs sous
-//            chapitre
-           $nestedTable= array_replace_recursive ($arraytoAdd,$nestedTable);
+//            chapitre : le sens dans la fonction array_replace_recursive est important ici. On prend le tableau avec les nouvelles valeurs et on le complète
+//            avec  toutes les infos de nestedTable.
+           $nestedTable= array_replace_recursive($arrayForTable, $nestedTable );
            asort($nestedTable);
-           var_dump($nestedTable);
 
         }
+        var_dump($nestedTable);
+
 
     }
 
-
-    public function getTree()
+ public function getTree()
     {
         return $this->tree;
     }
