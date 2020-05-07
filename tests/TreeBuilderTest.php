@@ -12,7 +12,7 @@ final class TreeBuilderTest extends TestCase
             '1.1. tests niveau un un',
             '1.2. tests niveau un deux',
             '1.2.3 test pour niveau un deux trois',
-            '1.2.3.4.5.6. test un deux trois quatre cinq six',
+            '1.2.3.4.5.6.7.8.9. test un deux trois quatre cinq six',
             '2. Effets indésirables',
             '2.1. Effet sur la grossesse',
             '2.1.1. Effet sur la enfants',

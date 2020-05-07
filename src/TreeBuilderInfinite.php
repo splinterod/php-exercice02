@@ -29,16 +29,16 @@ class TreeBuilderInfinite
             $chapterNumbers = array_reverse($chapterNumbers[0]);
             $arrayToAdd = [];
 
-            $arrayToAdd[filter_var($chapterNumbers[0], FILTER_SANITIZE_NUMBER_INT)] = [
-                'index' => filter_var($chapterNumbers[0], FILTER_SANITIZE_NUMBER_INT),
+            $arrayToAdd[str_replace('.','',$chapterNumbers[0])] = [
+                'index' => str_replace('.','',$chapterNumbers[0]),
                 'title' => $title,
             ];
 
             for ($i = 1; $i < count($chapterNumbers); $i++) {
                 $arrayChildren = $arrayToAdd;
                 $arrayToAdd =[];
-                $arrayToAdd[filter_var($chapterNumbers[$i], FILTER_SANITIZE_NUMBER_INT)] = [
-                        'index' => filter_var($chapterNumbers[$i], FILTER_SANITIZE_NUMBER_INT),
+                $arrayToAdd[str_replace('.','',$chapterNumbers[$i])] = [
+                        'index' => str_replace('.','',$chapterNumbers[$i]),
                         'title' => '',
                         'children' => $arrayChildren
                     ];
