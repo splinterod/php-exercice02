@@ -28,7 +28,6 @@ class TreeBuilderInfinite
             preg_match_all('~\d{1,3}.~', $title, $chapterNumbers);
             $chapterNumbers = array_reverse($chapterNumbers[0]);
             $arrayToAdd = [];
-
             $arrayToAdd[str_replace('.','',$chapterNumbers[0])] = [
                 'index' => str_replace('.','',$chapterNumbers[0]),
                 'title' => $title,

@@ -22,7 +22,6 @@ final class TreeBuilderTest extends TestCase
             '4.1. Données de sécurité préclinique',
         ];
 
-        //on trie ici input car il sera trié dans la méthode getTree() donc nécessaire pour valider si les deux tableaux sont identiques
         sort($input);
 
         $tree = new TreeBuilderInfinite($input);
