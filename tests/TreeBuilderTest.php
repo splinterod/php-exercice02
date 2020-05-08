@@ -21,7 +21,7 @@ final class TreeBuilderTest extends TestCase
             '3.1. Contre indications',
             '3.2. contre les maladies',
             '4. Données pharmaceutiques',
-            '4.1. Données de sécurité préclinique',
+            '4.1.2.3.6.3.5.6.9. Données de sécurité préclinique',
         ];
 
         sort($input);
@@ -32,6 +32,8 @@ final class TreeBuilderTest extends TestCase
 
         $origineTable = $this->findPosition($nestedTree);
         sort($origineTable);
+
+        var_dump($origineTable);
 
         // validation des nums de chapitre
         for ( $i=0 ; $i<count($origineTable) ;$i=$i+2){
@@ -49,9 +51,6 @@ final class TreeBuilderTest extends TestCase
         $this->assertEquals($input, $chapterNameTable);
         $this->assertEquals(true, $testChapter);
 
-
-        // comparatif des
-
     }
 
     public function findPosition($treeBis, $originalTable = [], $index = "")
@@ -61,8 +60,11 @@ final class TreeBuilderTest extends TestCase
             $index = substr($index, 0, $treeBis[$key]['level'] * 2 - 2);
 
             $index = $index . $treeBis[$key]['index'] . ".";
-            array_push($originalTable, $index);
-            array_push($originalTable, $treeBis[$key]['title']);
+            if($treeBis[$key]['title'] != ""){
+
+                array_push($originalTable, $index);
+                array_push($originalTable, $treeBis[$key]['title']);
+            }
 
             if (isset($treeBis[$key]['children'])) {
                 $originalTable = $this->findPosition($treeBis[$key]['children'], $originalTable, $index);
