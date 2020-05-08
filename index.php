@@ -13,12 +13,12 @@ require "vendor/autoload.php";
 use App\TreeBuilderInfinite;
 
 $input = [
-
     '1. Dénomination du médicament',
     '1.1. tests niveau un un',
     '1.2. tests niveau un deux',
-    '1.2.3 test pour niveau un deux trois',
-    '1.2.3.4.5.6.7.8.9. test un deux trois quatre cinq six',
+    '1.2.1. test pour niveau un deux trois',
+    '1.2.1.1. test pour niveau un deux trois',
+    '1.2.1.2. test pour niveau un deux trois',
     '2. Effets indésirables',
     '2.1. Effet sur la grossesse',
     '2.1.1. Effet sur la enfants',
@@ -26,9 +26,16 @@ $input = [
     '3.1. Contre indications',
     '4. Données pharmaceutiques',
     '4.1. Données de sécurité préclinique',
-
 ];
 
 $tree = new TreeBuilderInfinite($input);
 $tree->build();
-var_dump($tree->getTree());
+$nestedTree= $tree->getTree();
+sort($nestedTree);
+
+
+
+var_dump($nestedTree);
+
+
+

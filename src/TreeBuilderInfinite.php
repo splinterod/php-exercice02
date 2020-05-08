@@ -14,7 +14,6 @@ class TreeBuilderInfinite
 
     public function build()
     {
-        sort($this->flatData);
         $this->tree = $this->createdNestedTable();
 
         return $this->tree;
@@ -23,6 +22,7 @@ class TreeBuilderInfinite
     public function createdNestedTable() {
 
         $nestedTable = [];
+        sort($this->flatData);
 
         foreach ($this->flatData as $title) {
             preg_match_all('~\d{1,3}.~', $title, $chapterNumbers);
@@ -30,6 +30,7 @@ class TreeBuilderInfinite
             $arrayToAdd = [];
             $arrayToAdd[str_replace('.','',$chapterNumbers[0])] = [
                 'index' => str_replace('.','',$chapterNumbers[0]),
+                'level' => count($chapterNumbers),
                 'title' => $title,
             ];
 
@@ -38,6 +39,7 @@ class TreeBuilderInfinite
                 $arrayToAdd =[];
                 $arrayToAdd[str_replace('.','',$chapterNumbers[$i])] = [
                     'index' => str_replace('.','',$chapterNumbers[$i]),
+                    'level' => count($chapterNumbers),
                     'title' => '',
                     'children' => $arrayChildren
                 ];
