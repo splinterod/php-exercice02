@@ -2,11 +2,10 @@
 
 namespace App;
 
-use Exception;
-
 class TreeBuilder
 {
     private $flatData = [];
+    private $itemsArranged = [];
     private $tree = [];
 
     public function __construct($flatData = [])
@@ -16,52 +15,79 @@ class TreeBuilder
 
     public function build()
     {
-        /*      tri du tableau initial afin de respecter l'ordre des chapitres.
-               le tableau en sortie sera ainsi trié dans l'ordre des chapitres et
-               cela évitera de compléter ce tableau de façon aléatoire */
-        sort($this->flatData);
+        // fill in this method
+        // you can create other methods to organize your code.
+        $nLevels = 0;
+        $leveledData = [];
+        $data = [];
 
-        $nestedTable = [];
+        // @FILLTHIS
+        foreach ($this->flatData as $row) {
+            $info = self::info($row);
 
-        // on parcours toutes les lignes du tableau initial
-        foreach ($this->flatData as $title) {
-            /* extraction des numéros de chapitre avec une expression réguliere: $chapterNumbers est un array.
-             on peux gérer jusqu'au chapitre 999.999. */
-            preg_match_all('~\d{1,3}.~', $title, $chapterNumbers);
+            $this->itemsArranged[] = [
+                'row' => $row,
+                'numid' => $info['numid'],
+                'level' => $info['level'],
+                'parent' => $info['parent'],
+            ];
+        }
 
-            /*   Permet de connaitre la "profondeur" du chapitre :
-              si  la taille de $chapterNumbers = 1  alors chapitre niveau 1.
-              Si la taille de $chapterNumbers = 2 alors chapitre de niveau 2 (enfants d'un chapitre de niveau 1)... */
-            $indexSize = count($chapterNumbers[0]);
+        $this->tree = $this->mapTree($this->itemsArranged, null, 1);
 
-            /* en fonction de la "profondeur" du titre de chapitre en cours d'analyse, on le positionne dans le tableau de sortie en fct de son niveau hierarchique.
-             On ajoute directement le titre et l'index au bon endroit dans le tableau ( les clés et la valeur "index" sont les memes ): On n'a pas à se soucier de l'ordre
-             lequel les titres sont classés dans le tableau initial. D'autant plus que la source a été triée */
-            switch ($indexSize) {
-                case 1:
-                    // extraction du numéro de chapitre ( sous forme d. ) issu du preg_match_all
-                    $level1 = filter_var($chapterNumbers[0][0][0], FILTER_SANITIZE_NUMBER_INT);
-                    /* on ajoute titre et index au tableau
-                   Avant l'ajout , on pourrait tester si la valeur existe déja et remonter une erreur de numérotation*/
-                    $nestedTable[$level1]["index"] = $level1;
-                    //  on ajoute le titre en enlevant les 3 premiers caractères correspondant au numéro de chapitre (<number><dot><space>)
-                    $nestedTable[$level1]["title"] = substr($title, 3);
-                    break;
-                case 2:
-                    $level1 = filter_var($chapterNumbers[0][0][0], FILTER_SANITIZE_NUMBER_INT);
-                    $level2 = filter_var($chapterNumbers[0][1][0], FILTER_SANITIZE_NUMBER_INT);
-                    $nestedTable[$level1]["children"][$level2]["index"] = $level2;
-                    //on ajoute le titre en enlever les 5 premiers caractères correspondant au numéro de chapitre (<number><dot><number><dot><space>)
-                    $nestedTable[$level1]["children"][$level2]["title"] = substr($title, 5);
-                    break;
-                default:
-                //   au cas ou le niveau hierarchique dépasse 2, on renvoie une erreur afin d'éviter de remonter un tableau incomplet
-                    throw new Exception('le nombre de niveau hierarchique max (2 niveaux) est atteint');
+        return $this;
+    }
+
+    private function mapTree(array $items, $parent = null, $level = 1)
+    {
+        $tree = [];
+
+        foreach ($items as $k => $item) {
+
+            if ($level !== $item['level']) {
+                continue;
+            }
+
+            $tree[$k] = $item;
+            $tree[$k]['children'] = [];
+
+            $children = self::findChildrenIn($this->itemsArranged, $item['numid']);
+            $tree[$k]['children'] = $this->mapTree($children, $item, ($level + 1));
+        }
+
+        // could sort tree as well...
+        return array_values($tree);
+    }
+
+    public static function findChildrenIn($list, $numid)
+    {
+        $children = [];
+
+        foreach ($list as $item) {
+            if ($item['parent'] === $numid) {
+                $children[] = $item;
             }
         }
-        $this->tree = $nestedTable;
 
-        return $this->tree;
+        return $children;
+    }
+
+    public static function info($row)
+    {
+        $parts = explode('.', $row); // 2 , 1
+        $level = count($parts) - 1;
+        $nums = array_splice($parts, 0, count($parts) - 1);
+        $label = $parts[count($parts) - 1];
+
+        $parent = null;
+        $numid = implode('.', $nums);
+
+        if (count($nums) > 1) {
+            $pnums = array_splice($nums, 0, count($nums) - 1);
+            $parent = implode('.', $pnums);
+        }
+
+        return [ 'level' => $level, 'numid' => $numid, 'label' => $label, 'parent' => $parent];
     }
 
     public function getTree()

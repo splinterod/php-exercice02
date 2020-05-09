@@ -13,15 +13,21 @@ require "vendor/autoload.php";
 use App\TreeBuilder;
 
 $input = [
-
-   '1. Dénomination du médicament',
-   '2. Effets indésirables',
+    '1. Dénomination du médicament',
+    '1.1. tests niveau un un',
+    '1.2. tests niveau un deux',
+    '1.2.1. test pour niveau un deux trois',
+    '1.2.1.1. test pour niveau un deux trois',
+    '1.2.1.2. test pour niveau un deux trois',
+    '1.2.1.2.1. test pour niveau un deux trois',
+    '1.2.1.2.2. test pour niveau un deux trois',
+    '2. Effets indésirables',
     '2.1. Effet sur la grossesse',
+    '2.1.1. Effet sur la enfants',
     '3. Forme pharmaceutique',
     '3.1. Contre indications',
     '4. Données pharmaceutiques',
     '4.1. Données de sécurité préclinique',
-
 ];
 
 $tree = new TreeBuilder($input);
